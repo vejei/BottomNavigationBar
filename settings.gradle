@@ -1,0 +1,3 @@
+include ':bottomnavigationbar'
+include ':samples'
+rootProject.name = "BottomNavigationBar"
