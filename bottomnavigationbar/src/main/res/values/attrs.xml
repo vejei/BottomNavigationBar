@@ -1,2 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <declare-styleable name="BottomNavigationBar">
+        <attr name="bottom_navigation_bar_style" format="reference"/>
+        <attr name="navigation_menu" format="reference"/>
+        <attr name="action_layout" format="reference"/>
+        <attr name="action_view_attach_mode" format="enum">
+            <enum name="embed" value="0"/>
+            <enum name="hump" value="1"/>
+            <enum name="overlap" value="2"/>
+        </attr>
+        <attr name="action_view_hump_padding" format="dimension"/>
+        <attr name="item_icon_size" format="dimension"/>
+        <attr name="item_icon_tint" format="color"/>
+        <attr name="item_label_text_appearance_inactive" format="reference"/>
+        <attr name="item_label_text_appearance_active" format="reference"/>
+        <attr name="item_label_text_color" format="color"/>
+        <attr name="item_content_spacing" format="dimension"/>
+        <attr name="item_background" format="reference"/>
+        <attr name="item_ripple_enabled" format="boolean"/>
+        <attr name="item_ripple_color" format="color"/>
+        <attr name="item_unbounded_ripple" format="boolean"/>
+        <attr name="item_label_visibility_mode" format="enum">
+            <enum name="always" value="0"/>
+            <enum name="never" value="1"/>
+            <!--<enum name="selected" value="2"/>
+            <enum name="unselected" value="3"/>-->
+        </attr>
+        <attr name="elevation"/>
+    </declare-styleable>
+</resources>
