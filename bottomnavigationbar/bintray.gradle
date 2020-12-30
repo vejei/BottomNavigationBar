@@ -1,0 +1,79 @@
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+
+ext {
+    groupId = 'io.github.vejei.bottomnavigationbar'
+    artifactId = 'bottomnavigationbar'
+    versionName = '1.0.0-alpha'
+}
+
+version = ext.versionName
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier.set('sources')
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    from javadoc.destinationDir
+    archiveClassifier.set('javadoc')
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            artifact("$buildDir/outputs/aar/bottomnavigationbar-release.aar")
+            artifact sourcesJar
+            groupId project.ext.groupId
+            artifactId project.ext.artifactId
+            version project.ext.versionName
+
+            pom.withXml {
+                def dependenciesNode = asNode()['dependencies'][0] ?: asNode().appendNode('dependencies')
+
+                // Iterate over the implementation dependencies (we don't want the test ones),
+                // adding a <dependency> node for each
+                configurations.implementation.allDependencies.each {
+                    // Ensure dependencies such as fileTree are not included.
+                    if (it.name != 'unspecified') {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+        }
+    }
+}
+
+def properties = new Properties()
+properties.load(new FileInputStream("local.properties"))
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    publications = ['release']
+    publish = false
+
+    /*pkg {
+        repo = ''
+        name = ''
+        licenses = ['MIT']
+        desc = ''
+        websiteUrl = ''
+        issueTrackerUrl = 'h'
+        vcsUrl = ''
+
+        version {
+            name = project.ext.versionName
+            released = new Date()
+            vcsTag = project.ext.versionName
+        }
+    }*/
+}
