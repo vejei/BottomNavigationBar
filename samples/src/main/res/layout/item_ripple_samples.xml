@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+        android:id="@+id/bar_unbounded_ripple"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bar_bounded_ripple"
+        app:navigation_menu="@menu/bottom_nav_five_items"
+        app:item_unbounded_ripple="true"/>
+
+    <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+        android:id="@+id/bar_bounded_ripple"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/bar_unbounded_ripple"
+        app:layout_constraintBottom_toTopOf="@id/bar_custom_ripple"
+        app:navigation_menu="@menu/bottom_nav_five_items"
+        app:item_unbounded_ripple="false"/>
+
+    <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+        android:id="@+id/bar_custom_ripple"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/bar_bounded_ripple"
+        app:layout_constraintBottom_toTopOf="@id/bar_ripple_disabled"
+        app:navigation_menu="@menu/bottom_nav_five_items"
+        app:item_ripple_color="@color/teal_200"/>
+
+    <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+        android:id="@+id/bar_ripple_disabled"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/bar_custom_ripple"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:navigation_menu="@menu/bottom_nav_five_items"
+        app:item_ripple_enabled="false"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

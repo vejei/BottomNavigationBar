@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+        android:id="@+id/bar_default_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        app:navigation_menu="@menu/bottom_nav_five_items" />
+
+    <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+        android:id="@+id/bar_custom_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/bar_default_color"
+        android:layout_marginTop="16dp"
+        app:navigation_menu="@menu/bottom_nav_five_items"
+        app:item_icon_tint="@color/bottom_nav_icon_colors"
+        app:item_label_text_color="@color/bottom_nav_label_colors"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

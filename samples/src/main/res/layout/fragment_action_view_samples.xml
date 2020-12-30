@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eee"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+            android:id="@+id/bar_no_action_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigation_menu="@menu/bottom_nav_four_items" />
+
+        <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+            android:id="@+id/bar_action_view_embed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/bar_no_action_view"
+            app:navigation_menu="@menu/bottom_nav_four_items"
+            app:action_layout="@layout/action_layout_embed"/>
+
+        <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+            android:id="@+id/bar_action_view_hump"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/bar_action_view_embed"
+            app:navigation_menu="@menu/bottom_nav_four_items"
+            app:action_layout="@layout/action_layout_hump"
+            app:action_view_attach_mode="hump"
+            app:action_view_hump_padding="16dp"/>
+
+        <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+            android:id="@+id/bar_action_view_overlap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/bar_action_view_hump"
+            app:navigation_menu="@menu/bottom_nav_four_items"
+            app:action_layout="@layout/action_layout_overlap"
+            app:action_view_attach_mode="overlap"/>
+
+        <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+            android:id="@+id/bar_action_view_image_overlap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/bar_action_view_overlap"
+            app:navigation_menu="@menu/bottom_nav_four_items"
+            app:action_layout="@layout/action_layout_image_overlap"
+            app:action_view_attach_mode="overlap"/>
+
+        <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+            android:id="@+id/bar_placeholder_three_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/bar_action_view_image_overlap"
+            app:navigation_menu="@menu/bottom_nav_three_items"
+            app:action_layout="@layout/action_layout_embed" />
+
+        <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/bar_placeholder_three_item"
+            app:navigation_menu="@menu/bottom_nav_two_items"
+            app:action_layout="@layout/action_layout_embed"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

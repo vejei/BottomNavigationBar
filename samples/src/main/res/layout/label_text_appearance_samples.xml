@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+        android:id="@+id/bar_default"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bar_active"
+        app:navigation_menu="@menu/bottom_nav_five_items"/>
+
+    <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+        android:id="@+id/bar_active"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/bar_default"
+        app:layout_constraintBottom_toTopOf="@id/bar_inactive"
+        app:navigation_menu="@menu/bottom_nav_five_items"
+        app:item_label_text_appearance_active="@style/BottomNavigationBarItemActiveTextAppearance"/>
+
+    <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+        android:id="@+id/bar_inactive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/bar_active"
+        app:layout_constraintBottom_toTopOf="@id/bar_active_inactive"
+        app:navigation_menu="@menu/bottom_nav_five_items"
+        app:item_label_text_appearance_inactive="@style/BottomNavigationBarItemInactiveTextAppearance"/>
+
+    <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+        android:id="@+id/bar_active_inactive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/bar_inactive"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:navigation_menu="@menu/bottom_nav_five_items"
+        app:item_label_text_appearance_active="@style/BottomNavigationBarItemActiveTextAppearance"
+        app:item_label_text_appearance_inactive="@style/BottomNavigationBarItemActiveTextAppearance"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
