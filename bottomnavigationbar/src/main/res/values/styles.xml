@@ -1,2 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <style name="BottomNavigationBar">
+        <item name="elevation">@dimen/bnb_bottom_navigation_bar_elevation</item>
+        <item name="item_icon_size">@dimen/bnb_bottom_navigation_bar_icon_size</item>
+        <item name="item_icon_tint">@color/bottom_nav_item_tint</item>
+        <item name="item_label_visibility_mode">always</item>
+        <item name="item_label_text_appearance_inactive">@style/LabelTextAppearance</item>
+        <item name="item_label_text_appearance_active">@style/LabelTextAppearance</item>
+        <item name="item_label_text_color">@color/bottom_nav_item_tint</item>
+        <item name="item_ripple_color">@color/bottom_nav_item_ripple_color</item>
+        <item name="item_ripple_enabled">true</item>
+    </style>
+    <style name="LabelTextAppearance" parent="TextAppearance.AppCompat.Caption">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:letterSpacing">0.0333333333</item>
+    </style>
+</resources>
