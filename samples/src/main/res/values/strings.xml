@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">BottomNavigationBar</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_explore">Explore</string>
+    <string name="menu_collections">Collections</string>
+    <string name="menu_school">School</string>
+    <string name="menu_account">Account</string>
+
+    <string name="unbounded_ripple">Unbounded ripple (default)</string>
+    <string name="bounded_ripple">Bounded ripple</string>
+    <string name="ripple_disabled">Ripple disabled</string>
+    
+    <string name="button_text_add">Add</string>
 </resources>
