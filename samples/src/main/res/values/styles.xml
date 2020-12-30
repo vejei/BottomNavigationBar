@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BottomNavigationBarItemActiveTextAppearance">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/teal_200</item>
+    </style>
+    <style name="BottomNavigationBarItemInactiveTextAppearance">
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor">@android:color/holo_red_dark</item>
+    </style>
+</resources>
