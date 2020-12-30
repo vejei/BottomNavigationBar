@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <dimen name="bnb_bottom_navigation_bar_height">56dp</dimen>
+    <dimen name="bnb_bottom_navigation_bar_elevation">8dp</dimen>
+    <dimen name="bnb_bottom_navigation_bar_action_view_hump_padding">8dp</dimen>
+    <dimen name="bnb_bottom_navigation_bar_max_hump_height">32dp</dimen>
+    <dimen name="bnb_bottom_navigation_bar_icon_size">24dp</dimen>
+    <dimen name="bnb_bottom_navigation_bar_item_content_spacing">4dp</dimen>
+</resources>
