@@ -18,8 +18,9 @@ public class MainActivity extends AppCompatActivity {
             "Basic",
             "Setup ripple background",
             "Setup label and icon color",
-            "Change icon when item status change",
             "Setup text appearance of label",
+            "Setup label visibility mode",
+            "Change icon when item status change",
             "Add action View",
             "Work with fragments"
     };

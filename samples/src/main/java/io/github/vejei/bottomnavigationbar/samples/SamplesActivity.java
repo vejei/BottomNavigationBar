@@ -33,15 +33,18 @@ public class SamplesActivity extends AppCompatActivity {
                 fragment = SamplesFragment.newInstance(R.layout.item_color_samples);
                 break;
             case 3:
-                fragment = SamplesFragment.newInstance(R.layout.change_icon_sample);
-                break;
-            case 4:
                 fragment = SamplesFragment.newInstance(R.layout.label_text_appearance_samples);
                 break;
+            case 4:
+                fragment = SamplesFragment.newInstance(R.layout.label_visibility_mode_samples);
+                break;
             case 5:
-                fragment = new ActionViewSamplesFragment();
+                fragment = SamplesFragment.newInstance(R.layout.change_icon_sample);
                 break;
             case 6:
+                fragment = new ActionViewSamplesFragment();
+                break;
+            case 7:
                 fragment = new SetupFragmentSamplesFragment();
                 break;
             default:
