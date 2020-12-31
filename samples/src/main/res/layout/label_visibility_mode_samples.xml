@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+        android:id="@+id/bar_label_visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bar_icon_only"
+        app:navigation_menu="@menu/bottom_nav_five_items" />
+
+    <io.github.vejei.bottomnavigationbar.BottomNavigationBar
+        android:id="@+id/bar_icon_only"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/bar_label_visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:navigation_menu="@menu/bottom_nav_five_items"
+        app:item_label_visibility_mode="never"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
