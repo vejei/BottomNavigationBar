@@ -61,19 +61,19 @@ bintray {
     publications = ['release']
     publish = false
 
-    /*pkg {
-        repo = ''
-        name = ''
+    pkg {
+        repo = 'bottomnavigationbar'
+        name = 'bottomnavigationbar'
         licenses = ['MIT']
-        desc = ''
-        websiteUrl = ''
-        issueTrackerUrl = 'h'
-        vcsUrl = ''
+        desc = 'The bottom navigation widget based on the menu.'
+        websiteUrl = 'https://github.com/vejei/BottomNavigationBar'
+        issueTrackerUrl = 'https://github.com/vejei/BottomNavigationBar/issues'
+        vcsUrl = 'https://github.com/vejei/BottomNavigationBar.git'
 
         version {
             name = project.ext.versionName
             released = new Date()
             vcsTag = project.ext.versionName
         }
-    }*/
+    }
 }
