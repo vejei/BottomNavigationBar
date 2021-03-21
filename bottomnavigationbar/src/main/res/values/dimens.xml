@@ -6,4 +6,11 @@
     <dimen name="bnb_bottom_navigation_bar_max_hump_height">32dp</dimen>
     <dimen name="bnb_bottom_navigation_bar_icon_size">24dp</dimen>
     <dimen name="bnb_bottom_navigation_bar_item_content_spacing">4dp</dimen>
+
+    <dimen name="bnb_badge_without_text_corner_radius">4dp</dimen>
+    <dimen name="bnb_badge_with_text_corner_radius">8dp</dimen>
+    <dimen name="bnb_badge_text_size">10sp</dimen>
+    <dimen name="bnb_badge_long_text_horizontal_padding">4dp</dimen>
+    <dimen name="bnb_badge_without_text_horizontal_offset_along_anchor">4dp</dimen>
+    <dimen name="bnb_badge_with_text_horizontal_offset_along_anchor">6dp</dimen>
 </resources>
