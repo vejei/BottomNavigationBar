@@ -47,6 +47,9 @@ public class SamplesActivity extends AppCompatActivity {
             case 7:
                 fragment = new SetupFragmentSamplesFragment();
                 break;
+            case 8:
+                fragment = new BadgeSampleFragment();
+                break;
             default:
                 fragment = null;
         }

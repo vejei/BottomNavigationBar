@@ -22,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
             "Setup label visibility mode",
             "Change icon when item status change",
             "Add action View",
-            "Work with fragments"
+            "Work with fragments",
+            "Badge sample"
     };
 
     @Override
