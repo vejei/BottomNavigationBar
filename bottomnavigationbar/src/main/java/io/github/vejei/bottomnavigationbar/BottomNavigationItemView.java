@@ -16,11 +16,14 @@ import android.view.View;
 
 import androidx.annotation.Dimension;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.StyleRes;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.ViewCompat;
+
+import static io.github.vejei.bottomnavigationbar.BottomNavigationBar.LABEL_VISIBILITY_ALWAYS;
 
 final class BottomNavigationItemView extends View {
     private static final int[] CHECKED_STATE_SET = {android.R.attr.state_checked};
@@ -50,6 +53,8 @@ final class BottomNavigationItemView extends View {
     private ColorStateList activeTextColor;
     private ColorStateList inactiveTextColor;
 
+    private BadgeDrawable badgeDrawable;
+
     public BottomNavigationItemView(Context context) {
         super(context);
 
@@ -77,12 +82,15 @@ final class BottomNavigationItemView extends View {
         int iconTop;
         int iconRight;
         int iconBottom;
-        int contentHeight;
+        int contentHeight = 0;
 
         switch (labelVisibilityMode) {
-            case BottomNavigationBar.LABEL_VISIBILITY_ALWAYS:
+            case LABEL_VISIBILITY_ALWAYS:
+                labelBounds.setEmpty();
                 textPaint.getTextBounds(label.toString(), 0, label.length(), labelBounds);
-                contentHeight = icon.getIntrinsicHeight() + labelBounds.height() + contentSpacing;
+//                contentHeight = icon.getIntrinsicHeight() + labelBounds.height() + contentSpacing;
+                contentHeight = icon.getIntrinsicHeight() + (int) Math.abs(textPaint.ascent())
+                        + contentSpacing;
                 iconLeft = (width - icon.getIntrinsicWidth()) / 2;
                 iconTop = (height - contentHeight) / 2;
                 iconRight = iconLeft + icon.getIntrinsicWidth();
@@ -94,6 +102,8 @@ final class BottomNavigationItemView extends View {
                 labelBaselineY = iconBottom + contentSpacing - labelBounds.top;
                 break;
             case BottomNavigationBar.LABEL_VISIBILITY_NEVER:
+                contentHeight = icon.getIntrinsicHeight();
+
                 iconLeft = (width - icon.getIntrinsicWidth()) / 2;
                 iconTop = (height - icon.getIntrinsicHeight()) / 2;
                 iconRight = iconLeft + icon.getIntrinsicWidth();
@@ -102,18 +112,30 @@ final class BottomNavigationItemView extends View {
                 icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
                 break;
         }
+
+        if (hasBadge()) {
+            badgeDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
+            if (icon != null) {
+                badgeDrawable.setAnchorBounds(0, 0, icon.getIntrinsicWidth(), contentHeight);
+                badgeDrawable.updateBadgeBounds();
+            }
+        }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         switch (labelVisibilityMode) {
-            case BottomNavigationBar.LABEL_VISIBILITY_ALWAYS:
+            case LABEL_VISIBILITY_ALWAYS:
                 icon.draw(canvas);
                 canvas.drawText(label.toString(), labelBaselineX, labelBaselineY, textPaint);
                 break;
             case BottomNavigationBar.LABEL_VISIBILITY_NEVER:
                 icon.draw(canvas);
                 break;
+        }
+
+        if (hasBadge()) {
+            badgeDrawable.draw(canvas);
         }
     }
 
@@ -241,7 +263,7 @@ final class BottomNavigationItemView extends View {
             return;
         }
         this.contentSpacing = spacing;
-        if (labelVisibilityMode == BottomNavigationBar.LABEL_VISIBILITY_ALWAYS) {
+        if (labelVisibilityMode == LABEL_VISIBILITY_ALWAYS) {
             requestLayout();
         }
     }
@@ -329,5 +351,24 @@ final class BottomNavigationItemView extends View {
         }
         this.labelVisibilityMode = mode;
         requestLayout();
+    }
+
+    void setBadge(@NonNull BadgeDrawable drawable) {
+        badgeDrawable = drawable;
+        badgeDrawable.setCallback(this);
+        requestLayout();
+    }
+
+    BadgeDrawable getBadge() {
+        return this.badgeDrawable;
+    }
+
+    boolean hasBadge() {
+        return badgeDrawable != null;
+    }
+
+    void removeBadge() {
+        badgeDrawable = null;
+        invalidate();
     }
 }

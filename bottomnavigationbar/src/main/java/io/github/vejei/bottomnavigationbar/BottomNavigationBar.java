@@ -983,6 +983,41 @@ public final class BottomNavigationBar extends ViewGroup {
         itemReselectedListener = listener;
     }
 
+    public BadgeDrawable getOrCreateBadge(int menuItemId) {
+        validateMenuItemId(menuItemId);
+        BottomNavigationItemView itemView = findItemView(menuItemId);
+        BadgeDrawable badgeDrawable = new BadgeDrawable(getContext());
+        itemView.setBadge(badgeDrawable);
+        return badgeDrawable;
+    }
+
+    public void removeBadge(int menuItemId) {
+        validateMenuItemId(menuItemId);
+        BottomNavigationItemView itemView = findItemView(menuItemId);
+        itemView.removeBadge();
+    }
+
+    private BottomNavigationItemView findItemView(int menuItemId) {
+        if (itemViews != null) {
+            for (BottomNavigationItemView itemView : itemViews) {
+                if (itemView.getId() == menuItemId) {
+                    return itemView;
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean isValidId(int viewId) {
+        return viewId != View.NO_ID;
+    }
+
+    private void validateMenuItemId(int viewId) {
+        if (!isValidId(viewId)) {
+            throw new IllegalArgumentException(viewId + " is not a valid view id");
+        }
+    }
+
     /** Listener for handling selection events on bottom navigation items. */
     public interface OnNavigationItemSelectedListener {
 
