@@ -110,6 +110,10 @@ public class BadgeDrawable extends Drawable {
         invalidateSelf();
     }
 
+    public int getNumber() {
+        return number;
+    }
+
     public boolean hasNumber() {
         return numberText != null;
     }
