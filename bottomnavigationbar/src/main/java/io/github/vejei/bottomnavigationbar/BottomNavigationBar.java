@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.graphics.Outline;
 import android.graphics.Path;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -30,6 +32,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.view.ViewCompat;
+import androidx.customview.view.AbsSavedState;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -420,6 +423,28 @@ public final class BottomNavigationBar extends ViewGroup {
     public void addView(View child, int width, int height) {
         validateChildView(child);
         super.addView(child, width, height);
+    }
+
+    @Nullable
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState savedState = new SavedState(superState);
+        savedState.selectedItemPosition = selectedItemPosition;
+        return savedState;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState savedState = (SavedState) state;
+        super.onRestoreInstanceState(savedState.getSuperState());
+        this.selectedItemPosition = savedState.selectedItemPosition;
+        updateNavigationItems();
     }
 
     private void validateChildView(View child) {
@@ -1051,5 +1076,42 @@ public final class BottomNavigationBar extends ViewGroup {
         PlaceholderView(Context context) {
             super(context);
         }
+    }
+
+    static class SavedState extends AbsSavedState {
+        int selectedItemPosition;
+
+        public SavedState(@NonNull Parcelable superState) {
+            super(superState);
+        }
+
+        protected SavedState(Parcel source, ClassLoader loader) {
+            super(source, loader);
+            selectedItemPosition = source.readInt();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeInt(selectedItemPosition);
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new ClassLoaderCreator<SavedState>() {
+                    @Override
+                    public SavedState createFromParcel(Parcel source, ClassLoader loader) {
+                        return new SavedState(source, loader);
+                    }
+
+                    @Override
+                    public SavedState createFromParcel(Parcel source) {
+                        return new SavedState(source, null);
+                    }
+
+                    @Override
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
     }
 }

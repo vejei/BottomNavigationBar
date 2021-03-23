@@ -10,6 +10,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextPaint;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,11 +19,13 @@ import android.view.View;
 import androidx.annotation.Dimension;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StyleRes;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.ViewCompat;
+import androidx.customview.view.AbsSavedState;
 
 import static io.github.vejei.bottomnavigationbar.BottomNavigationBar.LABEL_VISIBILITY_ALWAYS;
 
@@ -162,6 +166,33 @@ final class BottomNavigationItemView extends View {
         textPaint = checked ? activeTextPaint : inactiveTextPaint;
 
         invalidate();
+    }
+
+    @Nullable
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        if (hasBadge()) {
+            Parcelable superState = super.onSaveInstanceState();
+            SavedState savedState = new SavedState(superState);
+            savedState.badgeNumber = badgeDrawable.getNumber();
+            return savedState;
+        }
+        return super.onSaveInstanceState();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState savedState = (SavedState) state;
+        super.onRestoreInstanceState(savedState.getSuperState());
+
+        BadgeDrawable badgeDrawable = new BadgeDrawable(getContext());
+        badgeDrawable.setNumber(savedState.badgeNumber);
+        setBadge(badgeDrawable);
     }
 
     void updateView(MenuItem menuItem) {
@@ -383,5 +414,42 @@ final class BottomNavigationItemView extends View {
     void removeBadge() {
         badgeDrawable = null;
         invalidate();
+    }
+
+    static class SavedState extends AbsSavedState {
+        int badgeNumber;
+
+        public SavedState(@NonNull Parcelable superState) {
+            super(superState);
+        }
+
+        protected SavedState(@NonNull Parcel source, @Nullable ClassLoader loader) {
+            super(source, loader);
+            badgeNumber = source.readInt();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeInt(badgeNumber);
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new ClassLoaderCreator<SavedState>() {
+                    @Override
+                    public SavedState createFromParcel(Parcel source, ClassLoader loader) {
+                        return new SavedState(source, loader);
+                    }
+
+                    @Override
+                    public SavedState createFromParcel(Parcel source) {
+                        return new SavedState(source, null);
+                    }
+
+                    @Override
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
     }
 }
