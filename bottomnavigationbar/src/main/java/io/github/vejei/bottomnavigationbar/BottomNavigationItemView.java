@@ -76,6 +76,11 @@ final class BottomNavigationItemView extends View {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        if (((labelVisibilityMode == LABEL_VISIBILITY_ALWAYS) && (label == null))
+                || (icon == null)) {
+            return;
+        }
+
         int width = right - left;
         int height = bottom - top;
         int iconLeft;
@@ -88,7 +93,6 @@ final class BottomNavigationItemView extends View {
             case LABEL_VISIBILITY_ALWAYS:
                 labelBounds.setEmpty();
                 textPaint.getTextBounds(label.toString(), 0, label.length(), labelBounds);
-//                contentHeight = icon.getIntrinsicHeight() + labelBounds.height() + contentSpacing;
                 contentHeight = icon.getIntrinsicHeight() + (int) Math.abs(textPaint.ascent())
                         + contentSpacing;
                 iconLeft = (width - icon.getIntrinsicWidth()) / 2;
@@ -115,10 +119,8 @@ final class BottomNavigationItemView extends View {
 
         if (hasBadge()) {
             badgeDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-            if (icon != null) {
-                badgeDrawable.setAnchorBounds(0, 0, icon.getIntrinsicWidth(), contentHeight);
-                badgeDrawable.updateBadgeBounds();
-            }
+            badgeDrawable.setAnchorBounds(0, 0, icon.getIntrinsicWidth(), contentHeight);
+            badgeDrawable.updateBadgeBounds();
         }
     }
 
@@ -139,6 +141,29 @@ final class BottomNavigationItemView extends View {
         }
     }
 
+    @Override
+    protected boolean verifyDrawable(@NonNull Drawable who) {
+        return super.verifyDrawable(who) || (who == icon)
+                || (badgeDrawable != null && who == badgeDrawable);
+    }
+
+    @Override
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+
+        if (icon != null && icon.isStateful()) {
+            icon.setState(getDrawableState());
+        }
+        int newColor = labelTextColor.getColorForState(getDrawableState(), 0);
+        if (textPaint != null && newColor != textPaint.getColor()) {
+            textPaint.setColor(newColor);
+        }
+
+        textPaint = checked ? activeTextPaint : inactiveTextPaint;
+
+        invalidate();
+    }
+
     void updateView(MenuItem menuItem) {
         this.menuItem = menuItem;
 
@@ -147,7 +172,6 @@ final class BottomNavigationItemView extends View {
             labelTextColor = checked ? activeTextColor : inactiveTextColor;
         }
 
-        refreshDrawableState();
         setSelected(menuItem.isChecked());
 
         setEnabled(menuItem.isEnabled());
@@ -157,23 +181,7 @@ final class BottomNavigationItemView extends View {
 
         setVisibility(menuItem.isVisible() ? View.VISIBLE : View.GONE);
 
-        updateTextPaint();
-        updateTextColor();
-        icon.setState(getDrawableState());
-        requestLayout();
-        invalidate();
-    }
-
-    private void updateTextPaint() {
-        textPaint = checked ? activeTextPaint : inactiveTextPaint;
-    }
-
-    private void updateTextColor() {
-        int newColor = labelTextColor.getColorForState(getDrawableState(), 0);
-        if (textPaint != null && newColor != textPaint.getColor()) {
-            textPaint.setColor(newColor);
-            invalidate();
-        }
+        refreshDrawableState();
     }
 
     public int getPosition() {
@@ -206,7 +214,7 @@ final class BottomNavigationItemView extends View {
             return;
         }
         this.label = label;
-        invalidate();
+        requestLayout();
     }
 
     void setIconSize(@Dimension int iconSize) {
@@ -254,7 +262,12 @@ final class BottomNavigationItemView extends View {
     void setLabelTextColor(ColorStateList color) {
         if (color != null) {
             this.labelTextColor = color;
-            updateTextColor();
+
+            int newColor = labelTextColor.getColorForState(getDrawableState(), 0);
+            if (textPaint != null && newColor != textPaint.getColor()) {
+                textPaint.setColor(newColor);
+                invalidate();
+            }
         }
     }
 
