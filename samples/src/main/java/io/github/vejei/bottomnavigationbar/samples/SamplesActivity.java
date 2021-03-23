@@ -54,7 +54,7 @@ public class SamplesActivity extends AppCompatActivity {
                 fragment = null;
         }
 
-        if (fragment != null) {
+        if (fragment != null && (savedInstanceState == null)) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, fragment)
                     .commit();
