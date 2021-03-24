@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Outline;
 import android.graphics.Path;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -141,12 +142,12 @@ public final class BottomNavigationBar extends ViewGroup {
 
         // Change the outline to canvas path, so that the background shadow follows the shape
         // of canvas.
-        setOutlineProvider(new ViewOutlineProvider() {
+        /*setOutlineProvider(new ViewOutlineProvider() {
             @Override
             public void getOutline(View view, Outline outline) {
                 outline.setConvexPath(outlinePath);
             }
-        });
+        });*/
 
         actionViewContainer = new ViewContainer(context);
 
@@ -358,14 +359,23 @@ public final class BottomNavigationBar extends ViewGroup {
 
     @Override
     public void draw(Canvas canvas) {
-        canvasSaveCount = canvas.save();
-        outlinePath.reset();
-
-        if (!humpEnabled) {
-            // No hump, add regular rectangle to path.
+        if (!humpEnabled && (actionViewAttachMode == ATTACH_MODE_OVERLAP)) {
+            canvasSaveCount = canvas.save();
+            outlinePath.reset();
             outlinePath.addRect(0, getHeight() - itemHeight, getWidth(), getHeight(),
                     Path.Direction.CW);
-        } else {
+            canvas.clipPath(outlinePath);
+
+            setOutlineProvider(new ViewOutlineProvider() {
+                @Override
+                public void getOutline(View view, Outline outline) {
+                    outline.setRect(0, getHeight() - itemHeight, getWidth(), getHeight());
+                }
+            });
+        } else if (humpEnabled && (actionViewAttachMode == ATTACH_MODE_HUMP)) {
+            canvasSaveCount = canvas.save();
+            outlinePath.reset();
+
             // There is hump in the center, add bezier curve to the path.
             int barWidth = getWidth();
             int barHeight = getHeight();
@@ -383,8 +393,21 @@ public final class BottomNavigationBar extends ViewGroup {
             outlinePath.lineTo(barWidth, humpHeight);
             outlinePath.lineTo(barWidth, barHeight);
             outlinePath.lineTo(0, barHeight);
+
+            canvas.clipPath(outlinePath);
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                setOutlineProvider(null);
+            } else {
+                setOutlineProvider(new ViewOutlineProvider() {
+                    @Override
+                    public void getOutline(View view, Outline outline) {
+                        outline.setConvexPath(outlinePath);
+                    }
+                });
+            }
         }
-        canvas.clipPath(outlinePath); // Clip the canvas before drawing the background.
+
         super.draw(canvas);
     }
 
