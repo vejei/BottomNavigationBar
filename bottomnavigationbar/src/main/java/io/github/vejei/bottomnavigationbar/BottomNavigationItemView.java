@@ -174,6 +174,7 @@ final class BottomNavigationItemView extends View {
         if (hasBadge()) {
             Parcelable superState = super.onSaveInstanceState();
             SavedState savedState = new SavedState(superState);
+            savedState.hasNumber = badgeDrawable.hasNumber();
             savedState.badgeNumber = badgeDrawable.getNumber();
             return savedState;
         }
@@ -191,7 +192,9 @@ final class BottomNavigationItemView extends View {
         super.onRestoreInstanceState(savedState.getSuperState());
 
         BadgeDrawable badgeDrawable = new BadgeDrawable(getContext());
-        badgeDrawable.setNumber(savedState.badgeNumber);
+        if (savedState.hasNumber) {
+            badgeDrawable.setNumber(savedState.badgeNumber);
+        }
         setBadge(badgeDrawable);
     }
 
@@ -417,6 +420,7 @@ final class BottomNavigationItemView extends View {
     }
 
     static class SavedState extends AbsSavedState {
+        boolean hasNumber;
         int badgeNumber;
 
         public SavedState(@NonNull Parcelable superState) {
@@ -426,12 +430,14 @@ final class BottomNavigationItemView extends View {
         protected SavedState(@NonNull Parcel source, @Nullable ClassLoader loader) {
             super(source, loader);
             badgeNumber = source.readInt();
+            hasNumber = (source.readInt() == 1);
         }
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
             dest.writeInt(badgeNumber);
+            dest.writeInt(hasNumber ? 1 : 0);
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR =
